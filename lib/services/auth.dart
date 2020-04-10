@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebasetrial/globalVariables.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -24,5 +25,27 @@ Future<void> signOut() async{
 	var user = FirebaseAuth.instance.currentUser();
 	print("Signed out $user");
 
+	loginUser = {
+		'uid': '',
+		'username': '',
+		'photoUrl': '',
+		'displayName': '',
+		'email': ''
+	};
+	loginStatus = true;
+
+
 	FirebaseAuth.instance.signOut();
+
 }
+
+
+
+
+
+
+//() {
+//signOut();
+//loginStatus = false;
+//Navigator.of(context).pushNamed('/');
+//}

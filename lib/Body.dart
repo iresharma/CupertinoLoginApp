@@ -12,7 +12,7 @@ class loginform extends StatefulWidget {
 class _loginformState extends State<loginform> {
 	final _formKey = GlobalKey<FormState>();
 
-	final loginController = TextEditingController();
+	final usernameController = TextEditingController();
 	final passwordController = TextEditingController();
 
 	@override
@@ -26,7 +26,7 @@ class _loginformState extends State<loginform> {
 		// Clean up the controller when the widget is removed from the widget tree.
 		// This also removes the _printLatestValue listener.
 		passwordController.dispose();
-		loginController.dispose();
+		usernameController.dispose();
 		super.dispose();
 	}
 
@@ -69,7 +69,7 @@ class _loginformState extends State<loginform> {
 									CupertinoIcons.person
 								),
 							),
-							controller: loginController,
+							controller: usernameController,
 							placeholder: "username",
 							autofocus: true,
 							clearButtonMode: OverlayVisibilityMode.editing,
@@ -163,9 +163,48 @@ class _loginformState extends State<loginform> {
 							child: Text("Use Google"),
 							onPressed: () {
 								handleSignIn().then((FirebaseUser user) {
-									print(user);
-									Navigator.of(context).pushNamed('/home');
+									User person = new User(user.uid, user.displayName, user.photoUrl, user.email);
+									person.set();
 								}). catchError((e) => print(e));
+								showCupertinoDialog(
+									context: context,
+									builder: (context) => CupertinoAlertDialog(
+										title: Text(
+											"Set Username",
+											style: CupertinoTheme.of(context).textTheme.navActionTextStyle,
+										),
+										actions: <Widget>[
+											Column(
+												mainAxisAlignment: MainAxisAlignment.start,
+												children: <Widget>[
+													Text("Username"),
+													CupertinoTextField(
+														prefix: Padding(
+															padding: EdgeInsets.all(0.8),
+															child: Icon(
+																CupertinoIcons.person
+															),
+														),
+														controller: usernameController,
+														placeholder: "username",
+														autofocus: true,
+														clearButtonMode: OverlayVisibilityMode.editing,
+													),
+													CupertinoDialogAction(
+														child: Text('Close'),
+														onPressed: () {
+
+															loginUser['username'] = usernameController.text;
+															print(loginUser);
+															loginStatus = true;
+															Navigator.of(context).pushNamed('/home');
+														}
+													)
+												],
+											)
+										],
+									)
+								);
 							},
 							color: Colors.lightGreenAccent.shade50,
 						),
