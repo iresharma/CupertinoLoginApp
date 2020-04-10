@@ -12,26 +12,24 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-	Future<http.Response> body = test();
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
 		navigationBar: CupertinoNavigationBar(
 			leading: Image.asset(
 				"images/logo.jpg",
-				width: 90,
-				height: 90,
 			),
-			trailing: CupertinoButton(
+			trailing: GestureDetector(
 				child: Padding(
-					padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-					child: Icon(CupertinoIcons.settings,
-						size: 30.0,
+					padding: EdgeInsets.all(0),
+					child: CircleAvatar(
+						radius: 25,
+						backgroundImage: NetworkImage(loginUser['photoUrl']),
 					),
 				),
-				onPressed: () => print('settings'),
-			),
+				onTap: () => print("Face"),
+				onLongPress: () => print("long face"),
+			)
 		),
 		child: Center(
 			child: Column(
@@ -40,10 +38,6 @@ class _HomeState extends State<Home> {
 					Text(
 						"Home Page",
 						style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
-					),
-					CupertinoButton.filled(
-						child: Text("Sign Out"),
-						onPressed: () => signOut(),
 					)
 				],
 			)

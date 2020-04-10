@@ -22,8 +22,6 @@ Future<FirebaseUser> handleSignIn() async {
 
 Future<void> signOut() async{
 	await FirebaseAuth.instance.signOut();
-	var user = FirebaseAuth.instance.currentUser();
-	print("Signed out $user");
 
 	loginUser = {
 		'uid': '',

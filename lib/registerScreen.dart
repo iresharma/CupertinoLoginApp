@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'globalVariables.dart';
 
 class RegisterScreen extends StatefulWidget {
 	@override
@@ -17,6 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 	final emailController = TextEditingController();
 	final loginController = TextEditingController();
 	final passwordController = TextEditingController();
+
+	var _image = "images/notAvailable.png";
 
 	@override
 	void initState() {
@@ -40,11 +43,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 	Widget build(BuildContext context) {
 		return CupertinoPageScaffold(
 			navigationBar: CupertinoNavigationBar(
-				middle: Text("Register",
-					style: TextStyle(
-						fontWeight: FontWeight.w600
-					),
+				middle: Image.asset(
+					"images/logo.jpg",
 				),
+				trailing: GestureDetector(
+					child: Padding(
+						padding: EdgeInsets.all(0),
+						child: CircleAvatar(
+							radius: 25,
+							backgroundImage: AssetImage(
+								_image,
+
+							),
+						),
+					),
+					onTap: () => print("Face"),
+					onLongPress: () => print("long face"),
+				)
 			),
 			child: SingleChildScrollView(
 				controller: scrollController,

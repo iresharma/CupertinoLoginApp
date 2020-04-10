@@ -1,4 +1,6 @@
 
+import 'package:http/src/response.dart';
+
 class User {
 	final String uid;
 	final String photoUrl;
@@ -17,6 +19,33 @@ class User {
 		};
 	}
 
+}
+
+class APIuser {
+	final String photoUrl;
+	final String displayName;
+	final String email;
+	final String username;
+
+	APIuser(this.photoUrl, this.displayName, this.email, this.username);
+
+	APIuser.fromJson(Map<String, dynamic> json)
+		: displayName = json['name'],
+			email = json['email'],
+			photoUrl = json['photoUrl'],
+			username = json['username'];
+
+
+
+	void set() {
+		loginUser = {
+			'uid': '',
+			'username': username,
+			'photoUrl': photoUrl,
+			'displayName': displayName,
+			'email': email
+		};
+	}
 }
 
 bool loginStatus = false;

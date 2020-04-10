@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebasetrial/services/APICalls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'services/auth.dart';
 import 'globalVariables.dart';
+import 'dart:convert';
 
 class loginform extends StatefulWidget {
 	@override
@@ -111,7 +113,13 @@ class _loginformState extends State<loginform> {
 								CupertinoButton(
 									child: Text("Login"),
 									onPressed: () {
-										print('hello');
+										APIsignIn(usernameController.text, passwordController.text).then((user) {
+											Map userMap = jsonDecode(user.body);
+											var User = APIuser.fromJson(userMap);
+											User.set();
+											print(loginUser);
+										});
+//										print(loginUser);
 									},
 									color: Color.fromRGBO(255, 203, 45, 1.0),
 								),
