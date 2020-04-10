@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "354080612371",
+    "firebase_url": "https://cupertinologinapp.firebaseio.com",
+    "project_id": "cupertinologinapp",
+    "storage_bucket": "cupertinologinapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354080612371:android:a6737149554ac54f90dfe6",
+        "android_client_info": {
+          "package_name": "com.iresharma.firebasetrial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354080612371-d6lqv3gjsh2eksjgtogb58uf5o7pov9c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iresharma.firebasetrial",
+            "certificate_hash": "5829c577bbc07b2f64c37b4b36219e5ae0a3832f"
+          }
+        },
+        {
+          "client_id": "354080612371-2sihp4qhaincq4182vlfvqk45kuql81c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB0OO7frE4o25caR_NOmyDfi5-jJXFZpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354080612371-2sihp4qhaincq4182vlfvqk45kuql81c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "354080612371-bnn6qu6tkbhpuh9uhpj8qed0icas30fa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.iresharma.logintrial"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
