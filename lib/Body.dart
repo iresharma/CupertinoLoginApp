@@ -32,7 +32,7 @@ class _loginformState extends State<loginform> {
 		super.dispose();
 	}
 
-
+	var incorrect = '';
 
 	@override
 	Widget build(BuildContext context) {
@@ -121,14 +121,13 @@ class _loginformState extends State<loginform> {
 										});
 //										print(loginUser);
 									},
-									color: Color.fromRGBO(255, 203, 45, 1.0),
+									color: Color.fromRGBO(103, 205, 125, 1.0),
 								),
-								CupertinoButton(
+								CupertinoButton.filled(
 									child: Text("Register"),
 									onPressed: () {
 										Navigator.of(context).pushNamed('/register');
 									},
-									color: Color.fromRGBO(14, 203, 45, 1.0),
 								)
 							],
 						),
@@ -172,61 +171,102 @@ class _loginformState extends State<loginform> {
 							onPressed: () {
 								handleSignIn().then((FirebaseUser user) {
 									User person = new User(user.uid, user.displayName, user.photoUrl, user.email);
-									person.set();
-								}). catchError((e) => print(e));
-								showCupertinoDialog(
-									context: context,
-									builder: (context) => CupertinoAlertDialog(
-										title: Text(
-											"Set Username",
-											style: CupertinoTheme.of(context).textTheme.navActionTextStyle,
-										),
-										actions: <Widget>[
-											Column(
-												mainAxisAlignment: MainAxisAlignment.start,
-												children: <Widget>[
-													Text("Username"),
-													CupertinoTextField(
-														prefix: Padding(
-															padding: EdgeInsets.all(0.8),
-															child: Icon(
-																CupertinoIcons.person
+									APIcheckGoogle(user.email).then( (user)  {
+										if (user.body != "no") {
+											print("works");
+										}
+										else {
+											showCupertinoModalPopup(
+												context: context,
+												builder: (_) {
+													return CupertinoPopupSurface(
+														isSurfacePainted: true,
+														child: Center(
+															child: Column(
+																mainAxisAlignment: MainAxisAlignment.start,
+																children: <Widget>[
+																	Padding(
+																		padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
+																		child: Image.asset(
+																			"images/logo.png",
+																			width: 300,
+																			height: 200,
+																		),
+																	),
+																	Text(
+																		"Create your username",
+																		style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+																	),
+																	Padding(
+																		padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+																		child: CupertinoTextField(
+																			controller: usernameController,
+																			prefix: Icon(CupertinoIcons.person),
+																			clearButtonMode: OverlayVisibilityMode.editing,
+																		),
+																	),
+																	Padding(
+																		padding: EdgeInsets.fromLTRB(15, 50, 15, 15),
+																		child: CupertinoButton.filled(
+																			child: Text("Continue"),
+																			onPressed: () {
+																				APIcheckuser(usernameController.text).then((user) {
+																					if(user.body == "no") {
+
+																						loginUser['username'] = usernameController.text;
+																						print(loginUser);
+																						loginStatus = true;
+																						APIdbput(loginUser).then((ret) => print(ret.body));
+																						Navigator.of(context).pushNamed('/home');
+																					}
+																					else {
+																						showCupertinoDialog(
+																							context: context,
+																							builder: (_) {
+																								return CupertinoAlertDialog(
+																									title: Column(
+																										mainAxisAlignment: MainAxisAlignment.center,
+																										children: <Widget>[
+																											Text(
+																											"Error",
+																											style: TextStyle(
+																												color: CupertinoColors.destructiveRed
+																												),
+																											),
+																											Text("Username Taken")
+																										],
+																									),
+																									actions: <Widget>[
+																										CupertinoDialogAction(
+																											child: Text('Close'),
+																											onPressed: () {
+																												loginUser['username'] = usernameController.text;
+																												Navigator.of(context).pop();
+																											}
+																										)
+																									],
+																								);
+																							},
+																						);
+																					}
+																				},
+																				);
+																			}
+																		),
+																	)
+																],
 															),
 														),
-														controller: usernameController,
-														placeholder: "username",
-														autofocus: true,
-														clearButtonMode: OverlayVisibilityMode.editing,
-													),
-													CupertinoDialogAction(
-														child: Text('Close'),
-														onPressed: () {
-
-															loginUser['username'] = usernameController.text;
-															print(loginUser);
-															loginStatus = true;
-															Navigator.of(context).pushNamed('/home');
-														}
-													)
-												],
-											)
-										],
-									)
-								);
+													);
+										});
+									}
+								});
+								person.set();
+							}). catchError((e) => print(e));
 							},
 							color: Colors.lightGreenAccent.shade50,
 						),
 					),
-					Padding(
-						padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-						child: CupertinoButton(
-							child: Text("Use Facebook"),
-							onPressed: () {
-								print("Iresh");
-							},
-							color: Colors.lightGreenAccent.shade50,
-						),
-					)
 				],
 			),
 		);
